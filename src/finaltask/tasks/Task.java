@@ -14,7 +14,7 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String title, String description) { // 2 конструктор, если статус не задали изначально
+    public Task(String title, String description) { // 2 конструктор, если статус не задали изначально (Пункт ТЗ 4.1)
         this.title = title;
         this.description = description;
         this.status = "NEW";
