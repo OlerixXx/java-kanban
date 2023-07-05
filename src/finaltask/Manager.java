@@ -7,11 +7,10 @@ import finaltask.tasks.Task;
 import java.util.*;
 
 public class Manager {
-    public int generatedId = 0;
-    public HashMap<Integer, Task> taskStorage = new HashMap<>();
-    public HashMap<Integer, Epic> epicStorage = new HashMap<>();
-    public HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
-
+    private final HashMap<Integer, Task> taskStorage = new HashMap<>();
+    private final HashMap<Integer, Epic> epicStorage = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
+    private int generatedId = 0;
     public Task createTask(Task task) {
         int id = generateId();
         task.setId(id);
@@ -86,14 +85,12 @@ public class Manager {
 
     public void updateSubtask(Subtask subtask) {
         Subtask saved = subtaskStorage.get(subtask.getId());
+        Epic epic = epicStorage.get(subtask.getEpicId());
         if (saved == null) {
             return;
         }
         subtaskStorage.put(subtask.getId(), subtask);
-    }
-
-    private int generateId() {
-        return ++generatedId;
+        epic.setStatus(updateEpicStatus(epic));
     }
 
     public void removeTasks() {
@@ -114,10 +111,9 @@ public class Manager {
     }
 
     public void removeEpicById(int id) {
-        Epic epic = epicStorage.get(id);
         for (Subtask value : subtaskStorage.values()) {
-            if (value.getEpicId() == id) {
-                subtaskStorage.remove(id);
+            if (value.getEpicId() == value.getId()) {
+                subtaskStorage.remove(value.getId());
             }
         }
         epicStorage.remove(id);
@@ -130,7 +126,6 @@ public class Manager {
     private String updateEpicStatus(Epic epic) {
         boolean statusNEW = true;
         boolean statusDONE = true;
-        boolean hasEmpty = epic.getSubtaskIdsList().isEmpty();
 
         for (Subtask subtask : getEpicSubtasks(epic.getId())) {
             statusNEW &= subtask.getStatus().equals("NEW");
@@ -159,5 +154,9 @@ public class Manager {
     @Override
     public int hashCode() {
         return Objects.hash(generatedId, taskStorage, epicStorage, subtaskStorage);
+    }
+
+    private int generateId() {
+        return ++generatedId;
     }
 }
