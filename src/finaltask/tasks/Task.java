@@ -6,9 +6,9 @@ public class Task {
     protected Integer id;
     protected String title;
     protected String description;
-    protected String status;
+    protected Status status;
 
-    public Task(String title, String description, String status) { // 1 конструктор необходим, если статус будет задан пользователем.
+    public Task(String title, String description, Status status) { // 1 конструктор необходим, если статус будет задан пользователем.
         this.title = title;
         this.description = description;
         this.status = status;
@@ -17,7 +17,7 @@ public class Task {
     public Task(String title, String description) { // 2 конструктор, если статус не задали изначально (Пункт ТЗ 4.1)
         this.title = title;
         this.description = description;
-        this.status = "NEW";
+        this.status = Status.NEW;
     }
 
     public Integer getId() {
@@ -44,11 +44,11 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

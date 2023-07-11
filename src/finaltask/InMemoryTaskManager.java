@@ -1,16 +1,18 @@
 package finaltask;
 
 import finaltask.tasks.Epic;
+import finaltask.tasks.Status;
 import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
 import java.util.*;
 
-public class Manager {
+public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> taskStorage = new HashMap<>();
     private final HashMap<Integer, Epic> epicStorage = new HashMap<>();
     private final HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
     private int generatedId = 0;
+
     public Task createTask(Task task) {
         int id = generateId();
         task.setId(id);
@@ -43,14 +45,17 @@ public class Manager {
     }
 
     public Task getTaskById(int id) {
+        Managers.getDefaultHistory().add(taskStorage.get(id));
         return taskStorage.get(id);
     }
 
     public Epic getEpicById(int id) {
+        Managers.getDefaultHistory().add(epicStorage.get(id));
         return epicStorage.get(id);
     }
 
     public Subtask getSubTaskById(int id) {
+        Managers.getDefaultHistory().add(subtaskStorage.get(id));
         return subtaskStorage.get(id);
     }
 
@@ -123,23 +128,23 @@ public class Manager {
         subtaskStorage.remove(id);
     }
 
-    private String updateEpicStatus(Epic epic) {
+    private Status updateEpicStatus(Epic epic) {
         boolean statusNEW = true;
         boolean statusDONE = true;
 
         for (Subtask subtask : getEpicSubtasks(epic.getId())) {
-            statusNEW &= subtask.getStatus().equals("NEW");
-            statusDONE &= subtask.getStatus().equals("DONE");
+            statusNEW &= subtask.getStatus() == Status.NEW;
+            statusDONE &= subtask.getStatus() == Status.DONE;
         }
 
         if (epic.getSubtaskIdsList().isEmpty()) {
-            return "NEW";
+            return Status.NEW;
         } else if (statusNEW) {
-            return "NEW";
+            return Status.NEW;
         } else if (statusDONE) {
-            return "DONE";
+            return Status.DONE;
         } else {
-            return "IN_PROGRESS";
+            return Status.IN_PROGRESS;
         }
     }
 
@@ -147,8 +152,8 @@ public class Manager {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Manager manager = (Manager) o;
-        return generatedId == manager.generatedId && taskStorage.equals(manager.taskStorage) && epicStorage.equals(manager.epicStorage) && subtaskStorage.equals(manager.subtaskStorage);
+        InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) o;
+        return generatedId == inMemoryTaskManager.generatedId && taskStorage.equals(inMemoryTaskManager.taskStorage) && epicStorage.equals(inMemoryTaskManager.epicStorage) && subtaskStorage.equals(inMemoryTaskManager.subtaskStorage);
     }
 
     @Override

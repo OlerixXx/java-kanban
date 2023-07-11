@@ -2,12 +2,10 @@ package finaltask.tasks;
 
 public class Subtask extends Epic {
     private int epicId;
-
     public Subtask(String title, String description) {
         super(title, description);
     }
-
-    public Subtask(String title, String description, String status) {
+    public Subtask(String title, String description, Status status) {
         super(title, description, status);
     }
 
