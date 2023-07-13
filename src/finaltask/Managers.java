@@ -1,8 +1,8 @@
 package finaltask;
 
 public class Managers {
-    private static final InMemoryTaskManager getDefault = new InMemoryTaskManager();
     private static final InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
+    private static final InMemoryTaskManager getDefault = new InMemoryTaskManager();
 
     public static TaskManager getDefault() {
         return getDefault;

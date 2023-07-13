@@ -11,6 +11,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final HashMap<Integer, Task> taskStorage = new HashMap<>();
     private final HashMap<Integer, Epic> epicStorage = new HashMap<>();
     private final HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int generatedId = 0;
 
     public Task createTask(Task task) {
@@ -45,18 +46,33 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Task getTaskById(int id) {
-        Managers.getDefaultHistory().add(taskStorage.get(id));
-        return taskStorage.get(id);
+        Task task = taskStorage.get(id);
+        if (task == null) {
+            throw new RuntimeException();
+        } else {
+            historyManager.add(task);
+            return task;
+        }
     }
 
     public Epic getEpicById(int id) {
-        Managers.getDefaultHistory().add(epicStorage.get(id));
-        return epicStorage.get(id);
+        Epic epic = epicStorage.get(id);
+        if (epic == null) {
+            throw new RuntimeException();
+        } else {
+            historyManager.add(epic);
+            return epic;
+        }
     }
 
     public Subtask getSubTaskById(int id) {
-        Managers.getDefaultHistory().add(subtaskStorage.get(id));
-        return subtaskStorage.get(id);
+        Subtask subtask = subtaskStorage.get(id);
+        if (subtask == null) {
+            throw new RuntimeException();
+        } else {
+            historyManager.add(subtask);
+            return subtask;
+        }
     }
 
     public Collection<Task> getAllTasks() {
@@ -69,6 +85,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     public Collection<Subtask> getAllSubtasks() {
         return subtaskStorage.values();
+    }
+
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 
     public void updateTask(Task task) {

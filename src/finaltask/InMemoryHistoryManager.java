@@ -3,16 +3,17 @@ package finaltask;
 import finaltask.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final List<Task> taskViewHistory = new ArrayList<>(10);
+    private final LinkedList<Task> taskViewHistory = new LinkedList<>();
 
     public void add(Task task) {
         if (taskViewHistory.size() < 10 ) {
             taskViewHistory.add(task);
         } else {
-            taskViewHistory.remove(0);
+            taskViewHistory.removeFirst();
             taskViewHistory.add(task);
         }
     }

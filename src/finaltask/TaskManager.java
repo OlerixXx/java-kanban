@@ -28,6 +28,8 @@ public interface TaskManager {
 
     Collection<Subtask> getAllSubtasks();
 
+    List<Task> getHistory();
+
     void updateTask(Task task);
 
     void updateEpic(Epic epic);
