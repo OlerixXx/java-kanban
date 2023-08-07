@@ -8,13 +8,13 @@ public class Task {
     protected String description;
     protected Status status;
 
-    public Task(String title, String description, Status status) { // 1 конструктор необходим, если статус будет задан пользователем.
+    public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
         this.status = status;
     }
 
-    public Task(String title, String description) { // 2 конструктор, если статус не задали изначально (Пункт ТЗ 4.1)
+    public Task(String title, String description) {
         this.title = title;
         this.description = description;
         this.status = Status.NEW;

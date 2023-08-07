@@ -88,7 +88,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getHistory() {
-        return historyManager.getHistory();
+        return historyManager.getTasks();
     }
 
     public void updateTask(Task task) {
@@ -119,32 +119,46 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public void removeTasks() {
+        for (Integer id : taskStorage.keySet()) {
+            removeNodeById(id);
+        }
         taskStorage.clear();
     }
 
     public void removeEpics() {
+        for (Map.Entry<Integer, Epic> entry : epicStorage.entrySet()) {
+            removeNodeById(entry.getKey());
+            for (Integer id : entry.getValue().getSubtaskIdsList()) {
+                removeNodeById(id);
+            }
+        }
         epicStorage.clear();
         subtaskStorage.clear();
     }
 
     public void removeSubtasks() {
+        for (Integer id : subtaskStorage.keySet()) {
+            removeNodeById(id);
+        }
         subtaskStorage.clear();
     }
 
     public void removeTaskById(int id) {
+        removeNodeById(id);
         taskStorage.remove(id);
     }
 
     public void removeEpicById(int id) {
-        for (Subtask value : subtaskStorage.values()) {
-            if (value.getEpicId() == value.getId()) {
-                subtaskStorage.remove(value.getId());
-            }
+        List<Integer> list = getEpicById(id).getSubtaskIdsList();
+        for (Integer subtaskId : list) {
+            removeSubtaskById(subtaskId);
         }
+        removeNodeById(id);
         epicStorage.remove(id);
     }
 
     public void removeSubtaskById(int id) {
+        removeNodeById(id);
         subtaskStorage.remove(id);
     }
 
@@ -173,7 +187,10 @@ public class InMemoryTaskManager implements TaskManager {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) o;
-        return generatedId == inMemoryTaskManager.generatedId && taskStorage.equals(inMemoryTaskManager.taskStorage) && epicStorage.equals(inMemoryTaskManager.epicStorage) && subtaskStorage.equals(inMemoryTaskManager.subtaskStorage);
+        return generatedId == inMemoryTaskManager.generatedId
+                && taskStorage.equals(inMemoryTaskManager.taskStorage)
+                && epicStorage.equals(inMemoryTaskManager.epicStorage)
+                && subtaskStorage.equals(inMemoryTaskManager.subtaskStorage);
     }
 
     @Override
@@ -183,5 +200,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     private int generateId() {
         return ++generatedId;
+    }
+
+    private void removeNodeById(int id) {
+        historyManager.removeNode(historyManager.getMap().get(id));
     }
 }
