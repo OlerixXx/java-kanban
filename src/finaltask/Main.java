@@ -69,7 +69,7 @@ public class Main {
 
     public static void checkTaskHistory() {
         System.out.println("История просмотра задач:");
-        for (Task task : Managers.getDefaultHistory().getTasks()) {
+        for (Task task : Managers.getDefaultHistory().getTaskList()) {
             System.out.println(task.getId());
         }
     }

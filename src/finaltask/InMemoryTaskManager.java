@@ -8,11 +8,18 @@ import finaltask.tasks.Task;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final HashMap<Integer, Task> taskStorage = new HashMap<>();
-    private final HashMap<Integer, Epic> epicStorage = new HashMap<>();
-    private final HashMap<Integer, Subtask> subtaskStorage = new HashMap<>();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final Map<Integer, Task> taskStorage;
+    private final Map<Integer, Epic> epicStorage;
+    private final Map<Integer, Subtask> subtaskStorage;
+    private final HistoryManager historyManager;
     private int generatedId = 0;
+
+    public InMemoryTaskManager() {
+        taskStorage = new HashMap<>();
+        epicStorage = new HashMap<>();
+        subtaskStorage = new HashMap<>();
+        historyManager = Managers.getDefaultHistory();
+    }
 
     public Task createTask(Task task) {
         int id = generateId();
@@ -88,7 +95,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public List<Task> getHistory() {
-        return historyManager.getTasks();
+        return historyManager.getTaskList();
     }
 
     public void updateTask(Task task) {
@@ -120,16 +127,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void removeTasks() {
         for (Integer id : taskStorage.keySet()) {
-            removeNodeById(id);
+            historyManager.removeNode(id);
         }
         taskStorage.clear();
     }
 
     public void removeEpics() {
         for (Map.Entry<Integer, Epic> entry : epicStorage.entrySet()) {
-            removeNodeById(entry.getKey());
+            historyManager.removeNode(entry.getKey());
             for (Integer id : entry.getValue().getSubtaskIdsList()) {
-                removeNodeById(id);
+                historyManager.removeNode(id);
             }
         }
         epicStorage.clear();
@@ -138,13 +145,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void removeSubtasks() {
         for (Integer id : subtaskStorage.keySet()) {
-            removeNodeById(id);
+            historyManager.removeNode(id);
         }
         subtaskStorage.clear();
     }
 
     public void removeTaskById(int id) {
-        removeNodeById(id);
+        historyManager.removeNode(id);
         taskStorage.remove(id);
     }
 
@@ -153,12 +160,12 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer subtaskId : list) {
             removeSubtaskById(subtaskId);
         }
-        removeNodeById(id);
+        historyManager.removeNode(id);
         epicStorage.remove(id);
     }
 
     public void removeSubtaskById(int id) {
-        removeNodeById(id);
+        historyManager.removeNode(id);
         subtaskStorage.remove(id);
     }
 
@@ -202,7 +209,4 @@ public class InMemoryTaskManager implements TaskManager {
         return ++generatedId;
     }
 
-    private void removeNodeById(int id) {
-        historyManager.removeNode(historyManager.getMap().get(id));
-    }
 }
