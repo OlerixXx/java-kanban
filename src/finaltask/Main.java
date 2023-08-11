@@ -8,9 +8,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        TaskManager taskManager = Managers.getDefault();
+
         /* Всё нижеперечисленное сделано исключительно
            ради тестирования методов менеджера задач. */
-
 
         Task task1 = new Task("Задача №1", "Описание задачи №1");
         Task task2 = new Task("Задача №2", "Описание задачи №2");
@@ -21,57 +22,58 @@ public class Main {
         Epic epic2 = new Epic("Эпик №2", "Описание эпика №2");
 
         // Создаём задачи
-        task1 = Managers.getDefault().createTask(task1);
-        task2 = Managers.getDefault().createTask(task2);
-        epic1 = Managers.getDefault().createEpic(epic1);
-        epic2 = Managers.getDefault().createEpic(epic2);
-        epic1subtask1 = Managers.getDefault().createSubtask(epic1subtask1, epic1.getId());
-        epic1subtask2 = Managers.getDefault().createSubtask(epic1subtask2, epic1.getId());
-        epic1subtask3 = Managers.getDefault().createSubtask(epic1subtask3, epic1.getId());
+        task1 = taskManager.createTask(task1);
+        task2 = taskManager.createTask(task2);
+        epic1 = taskManager.createEpic(epic1);
+        epic2 = taskManager.createEpic(epic2);
+        epic1subtask1 = taskManager.createSubtask(epic1subtask1, epic1.getId());
+        epic1subtask2 = taskManager.createSubtask(epic1subtask2, epic1.getId());
+        epic1subtask3 = taskManager.createSubtask(epic1subtask3, epic1.getId());
 
         // Смотрим задачи
         System.out.println("Получение задач по идентификаторам:");
-        System.out.println(Managers.getDefault().getTaskById(task1.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getTaskById(task2.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getTaskById(task2.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getTaskById(task1.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getEpicById(epic2.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getEpicById(epic1.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getEpicById(epic1.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getSubTaskById(epic1subtask1.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getSubTaskById(epic1subtask2.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getSubTaskById(epic1subtask3.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getEpicById(epic2.getId()));
-        checkTaskHistory();
-        System.out.println(Managers.getDefault().getTaskById(task2.getId()));
-        checkTaskHistory();
+        System.out.println(taskManager.getTaskById(task1.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getTaskById(task2.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getTaskById(task2.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getTaskById(task1.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getEpicById(epic2.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getEpicById(epic1.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getEpicById(epic1.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getSubTaskById(epic1subtask1.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getSubTaskById(epic1subtask2.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getSubTaskById(epic1subtask3.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getEpicById(epic2.getId()));
+        checkHistory(taskManager);
+        System.out.println(taskManager.getTaskById(task2.getId()));
+        checkHistory(taskManager);
 
         // Удаляем задачи
-        Managers.getDefault().removeTaskById(task1.getId());
-        checkTaskHistory();
-        Managers.getDefault().removeEpicById(epic2.getId());
-        checkTaskHistory();
-        Managers.getDefault().removeSubtaskById(epic1subtask1.getId());
-        checkTaskHistory();
-        Managers.getDefault().removeEpicById(epic1.getId());
-        checkTaskHistory();
+        taskManager.removeTaskById(task1.getId());
+        checkHistory(taskManager);
+        taskManager.removeEpicById(epic2.getId());
+        checkHistory(taskManager);
+        taskManager.removeSubtaskById(epic1subtask1.getId());
+        checkHistory(taskManager);
+        taskManager.removeEpicById(epic1.getId());
+        checkHistory(taskManager);
     }
 
-    public static void checkTaskHistory() {
-        System.out.println("История просмотра задач:");
-        for (Task task : Managers.getDefaultHistory().getTaskList()) {
-            System.out.println(task.getId());
+    public static void checkHistory(TaskManager taskManager) {
+        System.out.println("\nИстория задач:");
+        for (Task task : taskManager.getHistory()) {
+            System.out.println(task);
         }
+        System.out.println("\n");
     }
 
 }

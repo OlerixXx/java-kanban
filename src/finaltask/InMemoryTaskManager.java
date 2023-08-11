@@ -40,7 +40,9 @@ public class InMemoryTaskManager implements TaskManager {
         subtask.setId(id);
         subtask.setEpicId(epicId);
         subtaskStorage.put(id, subtask);
-        epicStorage.get(epicId).getSubtaskIdsList().add(id);
+        Epic epic = epicStorage.get(epicId);
+        List<Integer> list = epic.getSubtaskIdsList();
+        list.add(id);
         return subtask;
     }
 
@@ -189,24 +191,20 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InMemoryTaskManager inMemoryTaskManager = (InMemoryTaskManager) o;
-        return generatedId == inMemoryTaskManager.generatedId
-                && taskStorage.equals(inMemoryTaskManager.taskStorage)
-                && epicStorage.equals(inMemoryTaskManager.epicStorage)
-                && subtaskStorage.equals(inMemoryTaskManager.subtaskStorage);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(generatedId, taskStorage, epicStorage, subtaskStorage);
-    }
-
     private int generateId() {
         return ++generatedId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InMemoryTaskManager that = (InMemoryTaskManager) o;
+        return generatedId == that.generatedId && Objects.equals(taskStorage, that.taskStorage) && Objects.equals(epicStorage, that.epicStorage) && Objects.equals(subtaskStorage, that.subtaskStorage) && Objects.equals(historyManager, that.historyManager);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskStorage, epicStorage, subtaskStorage, historyManager, generatedId);
+    }
 }

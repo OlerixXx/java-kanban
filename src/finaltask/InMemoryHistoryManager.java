@@ -39,11 +39,11 @@ class CustomLinkedList {
     public Node tail;
     private int size = 0;
 
-    public void addNode(Task task, Map map) {
+    public void addNode(Task task, Map<Integer, Node> map) {
         if (map.containsKey(task.getId())) {
-            linkLast(task);
-            removeNode(Managers.getDefaultHistory().getMap().get(task.getId()));
+            removeNode(map.get(task.getId()));
             map.remove(task.getId());
+            linkLast(task);
             map.put(task.getId(), head);
         } else {
             linkLast(task);
