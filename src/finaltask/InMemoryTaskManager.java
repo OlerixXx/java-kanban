@@ -8,10 +8,10 @@ import finaltask.tasks.Task;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> taskStorage;
-    private final Map<Integer, Epic> epicStorage;
-    private final Map<Integer, Subtask> subtaskStorage;
-    private final HistoryManager historyManager;
+    protected final Map<Integer, Task> taskStorage;
+    protected final Map<Integer, Epic> epicStorage;
+    protected final Map<Integer, Subtask> subtaskStorage;
+    protected final HistoryManager historyManager;
     private int generatedId = 0;
 
     public InMemoryTaskManager() {

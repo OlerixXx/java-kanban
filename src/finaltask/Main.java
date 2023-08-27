@@ -4,11 +4,16 @@ import finaltask.tasks.Epic;
 import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
+import java.io.File;
+import java.nio.file.Path;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        TaskManager taskManager = Managers.getDefault();
+        File file = new File("C:\\Users\\olegm\\OneDrive\\Рабочий стол\\Java\\java-kanban\\src\\finaltask\\resources",
+                "file.csv");
+        TaskManager taskManager = Managers.getDefault(file);
 
         /* Всё нижеперечисленное сделано исключительно
            ради тестирования методов менеджера задач. */
@@ -59,12 +64,6 @@ public class Main {
 
         // Удаляем задачи
         taskManager.removeTaskById(task1.getId());
-        checkHistory(taskManager);
-        taskManager.removeEpicById(epic2.getId());
-        checkHistory(taskManager);
-        taskManager.removeSubtaskById(epic1subtask1.getId());
-        checkHistory(taskManager);
-        taskManager.removeEpicById(epic1.getId());
         checkHistory(taskManager);
     }
 

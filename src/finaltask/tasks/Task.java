@@ -7,17 +7,29 @@ public class Task {
     protected String title;
     protected String description;
     protected Status status;
+    protected TaskType type;
 
     public Task(String title, String description, Status status) {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.type = TaskType.TASK;
     }
 
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
+        this.type = TaskType.TASK;
+    }
+
+    public Task(String title, String description, Status status, Integer id) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.id = id;
+        this.type = TaskType.TASK;
+
     }
 
     public Integer getId() {
@@ -48,9 +60,14 @@ public class Task {
         return status;
     }
 
+    public TaskType getType() {
+        return type;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -77,4 +94,5 @@ public class Task {
                 ", status='" + status + '\'' +
                 '}';
     }
+
 }
