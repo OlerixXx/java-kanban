@@ -3,22 +3,20 @@ package finaltask;
 import finaltask.tasks.*;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
+public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager{
     File file;
     private static final CSVFormatHandler handler = new CSVFormatHandler();
-    public FileBackedTasksManager(File file) {
-        this.file = file;
-    }
+    protected static FileBackedTasksManager manager = new FileBackedTasksManager();
     public FileBackedTasksManager() {}
 
     public void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
             // Заголовок
-
             writer.write(handler.getHeader());
             writer.newLine();
 
@@ -47,12 +45,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 
 
         } catch (IOException exception) {
-            throw new IllegalArgumentException("Невозможно сохранить файл!");
+            throw new ManagerSaveException();
         }
     }
 
     static FileBackedTasksManager loadFromFile (File file) {
-        FileBackedTasksManager manager = new FileBackedTasksManager(file);
+
+        manager.file = file;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(manager.file))) {
             List<String> lineArray = new ArrayList<>();
@@ -65,12 +64,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
             /* Проверяем наличие заголовка, после пропускаем заголовок (проверка, что файл не пустой).
                Если строка не пустая, то записываем в manager задачи. Если же строка
                пустая, то следующая строка - либо история (преобразовываем историю), либо файл совсем пустой. */
-
-            if (lineArray.isEmpty()) {
-                throw new IOException("Файл пустой!");
-            } else if (lineArray.get(0).trim().isEmpty()) {
-                throw new IOException("Файл имеет неверный формат записи!");
-            }
 
             for (int i = 1; i <= lineArray.size(); i++) {
                 if (lineArray.size() == 1) {break;}
@@ -255,8 +248,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
 }
 
 class CSVFormatHandler {
-
-    private final Map<Integer, Task> temporaryTasks = new HashMap<>();
+    Map<Integer, Task> taskList = new HashMap<>();
+    private static final FileBackedTasksManager manager = FileBackedTasksManager.manager;
     private static final String DELIMITER = ",";
 
     String toString(Task task) {
@@ -288,7 +281,7 @@ class CSVFormatHandler {
         List<Task> historyList = new ArrayList<>();
         String[] split = value.trim().split(DELIMITER);
         for (String id : split) {
-            Task task = temporaryTasks.get(Integer.valueOf(id));
+            Task task = taskList.get(Integer.valueOf(id));
             historyList.add(task);
         }
         return historyList;
@@ -299,16 +292,16 @@ class CSVFormatHandler {
         switch (TaskType.valueOf(split[1].toUpperCase())) {
             case TASK:
                 Task task = new Task(split[2], split[4], Status.valueOf(split[3].toUpperCase()), Integer.valueOf(split[0]));
-                temporaryTasks.put(Integer.valueOf(split[0]), task);
+                taskList.put(Integer.parseInt(split[0]), task);
                 return task;
             case EPIC:
                 Epic epic = new Epic(split[2], split[4], Status.valueOf(split[3].toUpperCase()), Integer.valueOf(split[0]));
-                temporaryTasks.put(Integer.valueOf(split[0]), epic);
+                taskList.put(Integer.parseInt(split[0]), epic);
                 return epic;
             case SUBTASK:
                 Subtask subtask = new Subtask(split[2], split[4], Status.valueOf(split[3].toUpperCase()),
                         Integer.valueOf(split[0]), Integer.parseInt(split[5]));
-                temporaryTasks.put(Integer.valueOf(split[0]), subtask);
+                taskList.put(Integer.parseInt(split[0]), subtask);
                 return subtask;
             default:
                 return null;
