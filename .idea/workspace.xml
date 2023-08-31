@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="f0f5515a-d516-4b40-99f2-def2f126bda6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/finaltask/ManagerSaveException.java" afterDir="false" />
+    <list default="true" id="de99318a-e318-4e75-8ee0-0fc0f94f6493" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/finaltask/CSVFormatHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/finaltask/FileBackedTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/FileBackedTasksManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/finaltask/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/Main.java" afterDir="false" />
     </list>
@@ -10,6 +14,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -21,7 +32,7 @@
   "customColor": "",
   "associatedIndex": 1
 }]]></component>
-  <component name="ProjectId" id="2UcoWrIFPmU80re1E9Fm7Tryjjc" />
+  <component name="ProjectId" id="2UlBmUrF63ictZwEgs5jaIQFo1A" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -31,19 +42,27 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/olegm/OneDrive/Рабочий стол/java-kanban1",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="finaltask" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f0f5515a-d516-4b40-99f2-def2f126bda6" name="Changes" comment="" />
-      <created>1693248263860</created>
+      <changelist id="de99318a-e318-4e75-8ee0-0fc0f94f6493" name="Changes" comment="" />
+      <created>1693504445876</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1693248263860</updated>
+      <updated>1693504445876</updated>
     </task>
     <servers />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
