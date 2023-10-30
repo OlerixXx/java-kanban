@@ -1,4 +1,4 @@
-package finaltask;
+package finaltask.file;
 
 public class ManagerSaveException extends RuntimeException {
 

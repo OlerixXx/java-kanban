@@ -1,5 +1,6 @@
-package finaltask;
+package finaltask.memory;
 
+import finaltask.HistoryManager;
 import finaltask.tasks.Task;
 
 import java.util.ArrayList;

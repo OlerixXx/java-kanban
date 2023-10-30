@@ -1,5 +1,8 @@
-package finaltask;
+package finaltask.memory;
 
+import finaltask.HistoryManager;
+import finaltask.Managers;
+import finaltask.TaskManager;
 import finaltask.tasks.Epic;
 import finaltask.tasks.Status;
 import finaltask.tasks.Subtask;
@@ -152,12 +155,18 @@ public class InMemoryTaskManager implements TaskManager {
         subtaskStorage.clear();
     }
 
-    public void removeTaskById(int id) {
+    public void removeTaskById(Integer id) {
+        if (id == null) {
+            return;
+        }
         historyManager.removeNode(id);
         taskStorage.remove(id);
     }
 
-    public void removeEpicById(int id) {
+    public void removeEpicById(Integer id) {
+        if (id == null) {
+            return;
+        }
         List<Integer> list = getEpicById(id).getSubtaskIdsList();
         for (Integer subtaskId : list) {
             removeSubtaskById(subtaskId);
@@ -166,7 +175,10 @@ public class InMemoryTaskManager implements TaskManager {
         epicStorage.remove(id);
     }
 
-    public void removeSubtaskById(int id) {
+    public void removeSubtaskById(Integer id) {
+        if (id == null) {
+            return;
+        }
         historyManager.removeNode(id);
         subtaskStorage.remove(id);
     }

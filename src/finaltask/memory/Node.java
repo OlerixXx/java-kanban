@@ -1,4 +1,4 @@
-package finaltask;
+package finaltask.memory;
 
 import finaltask.tasks.Task;
 

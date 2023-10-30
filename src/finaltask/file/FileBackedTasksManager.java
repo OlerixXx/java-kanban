@@ -1,17 +1,24 @@
-package finaltask;
+package finaltask.file;
 
-import finaltask.tasks.*;
+import finaltask.TaskManager;
+import finaltask.memory.InMemoryTaskManager;
+import finaltask.tasks.Epic;
+import finaltask.tasks.Subtask;
+import finaltask.tasks.Task;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager{
+public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
     private File file;
     private static final CSVFormatHandler handler = new CSVFormatHandler();
     protected static FileBackedTasksManager manager = new FileBackedTasksManager();
     public FileBackedTasksManager() {}
+    public FileBackedTasksManager(File file) {
+        this.file = file;
+    }
 
     public void save() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
@@ -49,7 +56,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         }
     }
 
-    static FileBackedTasksManager loadFromFile (File file) {
+    public static FileBackedTasksManager loadFromFile (File file) {
 
         manager.file = file;
 
@@ -217,19 +224,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     @Override
-    public void removeTaskById(int id) {
+    public void removeTaskById(Integer id) {
         super.removeTaskById(id);
         save();
     }
 
     @Override
-    public void removeEpicById(int id) {
+    public void removeEpicById(Integer id) {
         super.removeEpicById(id);
         save();
     }
 
     @Override
-    public void removeSubtaskById(int id) {
+    public void removeSubtaskById(Integer id) {
         super.removeSubtaskById(id);
         save();
     }

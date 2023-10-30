@@ -1,10 +1,13 @@
 package finaltask.tasks;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
+
     private final List<Integer> subtaskIds = new ArrayList<>();
+
     public Epic(String title, String description, Status status) {
         super(title, description, status);
         this.type = TaskType.EPIC;

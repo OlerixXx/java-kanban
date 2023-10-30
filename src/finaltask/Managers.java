@@ -1,5 +1,7 @@
 package finaltask;
 
+import finaltask.file.FileBackedTasksManager;
+import finaltask.memory.InMemoryHistoryManager;
 import java.io.File;
 
 public class Managers {

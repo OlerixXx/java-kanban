@@ -42,11 +42,11 @@ public interface TaskManager {
 
     void removeSubtasks();
 
-    void removeTaskById(int id);
+    void removeTaskById(Integer id);
 
-    void removeEpicById(int id);
+    void removeEpicById(Integer id);
 
-    void removeSubtaskById(int id);
+    void removeSubtaskById(Integer id);
 
     @Override
     boolean equals(Object o);

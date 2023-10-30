@@ -1,4 +1,4 @@
-package finaltask;
+package finaltask.file;
 
 import finaltask.HistoryManager;
 import finaltask.tasks.*;

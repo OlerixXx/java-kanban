@@ -1,5 +1,6 @@
 package finaltask;
 
+import finaltask.memory.Node;
 import finaltask.tasks.Task;
 
 import java.util.List;
