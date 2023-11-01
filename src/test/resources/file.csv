@@ -1,4 +1,3 @@
-id,type,name,status,description,epic
-1,EPIC,Title,NEW,Description
+id,type,name,status,description,startTime,duration,endTime,epic
+1,TASK,Title,NEW,Description,10.10.2023 00:00,PT240H,20.10.2023 00:00
 
-1

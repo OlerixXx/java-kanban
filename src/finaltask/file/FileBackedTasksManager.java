@@ -7,9 +7,8 @@ import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
     private File file;
@@ -181,6 +180,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     @Override
+    public Set<Task> getPrioritizedTasks() {
+        Set<Task> set = super.getPrioritizedTasks();
+        save();
+        return set;
+    }
+
+    @Override
     public List<Task> getHistory() {
         List<Task> list = super.getHistory();
         save();
@@ -238,6 +244,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public void removeSubtaskById(Integer id) {
         super.removeSubtaskById(id);
+        save();
+    }
+
+    @Override
+    public void checkTheTaskForRepetition(Task task) {
+        super.checkTheTaskForRepetition(task);
         save();
     }
 

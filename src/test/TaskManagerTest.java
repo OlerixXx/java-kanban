@@ -6,6 +6,8 @@ import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +21,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getTaskWhenCreatingTask() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         assertEquals(task, taskManager.createTask(task));
     }
 
@@ -33,7 +35,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void getSubtaskWhenCreatingSubtask() {
         Epic epic = new Epic("Title", "Description");
         taskManager.createEpic(epic);
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         assertEquals(subtask, taskManager.createSubtask(subtask, epic.getId()));
     }
 
@@ -41,8 +43,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void getEpicSubtasksListWhenCallingMethodGetEpicSubtasks() {
         Epic epic = new Epic("Title", "Description");
         taskManager.createEpic(epic);
-        Subtask subtask1 = new Subtask("Title", "Description");
-        Subtask subtask2 = new Subtask("Title", "Description");
+        Subtask subtask1 = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Subtask subtask2 = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         ArrayList<Subtask> subtaskList = new ArrayList<>();
         subtaskList.add(subtask1);
         subtaskList.add(subtask2);
@@ -54,14 +56,14 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getTaskWhenCallingMethodGetTaskById() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task);
         assertEquals(task, taskManager.getTaskById(task.getId()));
     }
 
     @Test
     public void getExceptionWhenCallingMethodGetTaskByIdWithAnEmptyTaskList() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         final RuntimeException exception = assertThrows(
                 RuntimeException.class,
                 () -> taskManager.getTaskById(task.getId())  // Здесь передаётся null
@@ -98,14 +100,14 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void getSubtaskWhenCallingMethodGetSubtaskById() {
         Epic epic = new Epic("Title", "Description");
         taskManager.createEpic(epic);
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
         assertEquals(subtask, taskManager.getSubTaskById(subtask.getId()));
     }
 
     @Test
     public void getExceptionWhenCallingMethodGetSubtaskByIdWithAnEmptySubtaskList() {
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         final RuntimeException exception = assertThrows(
                 RuntimeException.class,
                 () -> taskManager.getSubTaskById(subtask.getId())  // Здесь передаётся null
@@ -119,8 +121,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getTaskListWhenCallingMethodGetAllTask() {
-        Task task1 = new Task("Title", "Description");
-        Task task2 = new Task("Title", "Description");
+        Task task1 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Task task2 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task1);
         taskManager.createTask(task2);
 
@@ -170,8 +172,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void getSubtaskListWhenCallingMethodGetAllSubtasks() {
         Epic epic = new Epic("Title", "Description");
-        Subtask subtask1 = new Subtask("Title", "Description");
-        Subtask subtask2 = new Subtask("Title", "Description");
+        Subtask subtask1 = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Subtask subtask2 = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createEpic(epic);
         taskManager.createSubtask(subtask1, epic.getId());
         taskManager.createSubtask(subtask2, epic.getId());
@@ -196,9 +198,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getHistoryArrayWith312WhenCallingTheseTasks() {
-        Task task1 = new Task("Title", "Description");
-        Task task2 = new Task("Title", "Description");
-        Task task3 = new Task("Title", "Description");
+        Task task1 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Task task2 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Task task3 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task1);
         taskManager.createTask(task2);
         taskManager.createTask(task3);
@@ -218,9 +220,9 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getAnEmptyHistoryArrayIfYouDontCallTasks() {
-        Task task1 = new Task("Title", "Description");
-        Task task2 = new Task("Title", "Description");
-        Task task3 = new Task("Title", "Description");
+        Task task1 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Task task2 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        Task task3 = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task1);
         taskManager.createTask(task2);
         taskManager.createTask(task3);
@@ -237,7 +239,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getNewTitleAfterUpdatingTheTask() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task);
         task.setTitle("NewTitle");
         taskManager.updateTask(task);
@@ -246,7 +248,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void doNothingWhenUpdatingTaskIfItIsNotInManager() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.updateTask(task);
         assertTrue(taskManager.getAllTasks().isEmpty());
     }
@@ -270,7 +272,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     @Test
     public void getNewTitleAfterUpdatingTheSubtask() {
         Epic epic = new Epic("Title", "Description");
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createEpic(epic);
         taskManager.createSubtask(subtask, epic.getId());
         subtask.setTitle("NewTitle");
@@ -280,14 +282,14 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void doNothingWhenUpdatingSubtaskIfItIsNotInManager() {
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.updateSubtask(subtask);
         assertTrue(taskManager.getAllSubtasks().isEmpty());
     }
 
     @Test
     public void getAnEmptyTaskListWhenDeletingTasks() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task);
         taskManager.getTaskById(task.getId());
 
@@ -327,7 +329,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void getAnEmptySubtaskListWhenDeletingSubtasks() {
         Epic epic = new Epic("Title", "Description");
         taskManager.createEpic(epic);
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
         taskManager.getSubTaskById(subtask.getId());
 
@@ -346,7 +348,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getAnEmptyTaskListWhenDeletingTaskById() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task);
         taskManager.getTaskById(task.getId());
 
@@ -360,7 +362,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void getTaskListWhenDeletingTaskWithInvalidId() {
-        Task task = new Task("Title", "Description");
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createTask(task);
         taskManager.getTaskById(task.getId());
 
@@ -404,7 +406,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void getAnEmptySubtaskListWhenDeletingSubtaskById() {
         Epic epic = new Epic("Title", "Description");
         taskManager.createEpic(epic);
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
         taskManager.getSubTaskById(subtask.getId());
 
@@ -420,7 +422,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
     public void getSubtaskListWhenDeletingSubtaskWithInvalidId() {
         Epic epic = new Epic("Title", "Description");
         taskManager.createEpic(epic);
-        Subtask subtask = new Subtask("Title", "Description");
+        Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
         taskManager.getSubTaskById(subtask.getId());
 
@@ -430,5 +432,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Collection<Subtask> subtaskCollectionFromManager = taskManager.getAllSubtasks();
         Subtask[] subtaskArrayFromManager = subtaskCollectionFromManager.toArray(new Subtask[subtaskCollectionFromManager.size()]);
         assertArrayEquals(subtaskArray, subtaskArrayFromManager);
+    }
+
+    @Test
+    public void getEndTime() {
+        Task task = new Task("Title", "Description", Duration.ofDays(10), LocalDateTime.of(2023, 10, 10, 0, 0));
+        taskManager.createTask(task);
+        assertEquals(LocalDateTime.of(2023, 10, 20, 0, 0), task.getEndTime());
     }
 }

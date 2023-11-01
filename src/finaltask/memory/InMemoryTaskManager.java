@@ -3,11 +3,15 @@ package finaltask.memory;
 import finaltask.HistoryManager;
 import finaltask.Managers;
 import finaltask.TaskManager;
+import finaltask.file.IntersectionException;
 import finaltask.tasks.Epic;
 import finaltask.tasks.Status;
 import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -25,10 +29,16 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Task createTask(Task task) {
-        int id = generateId();
-        task.setId(id);
-        taskStorage.put(id, task);
-        return task;
+        try {
+            int id = generateId();
+            task.setId(id);
+            taskStorage.put(id, task);
+            checkTheTaskForRepetition(task);
+            return task;
+        } catch (IntersectionException exception) {
+            System.out.println("Пересечение по времени при создании задачи с ID:" + task.getId());
+            return task;
+        }
     }
 
     public Epic createEpic(Epic epic) {
@@ -39,14 +49,21 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Subtask createSubtask(Subtask subtask, int epicId) {
-        int id = generateId();
-        subtask.setId(id);
-        subtask.setEpicId(epicId);
-        subtaskStorage.put(id, subtask);
-        Epic epic = epicStorage.get(epicId);
-        List<Integer> list = epic.getSubtaskIdsList();
-        list.add(id);
-        return subtask;
+        try {
+            int id = generateId();
+            subtask.setId(id);
+            subtask.setEpicId(epicId);
+            subtaskStorage.put(id, subtask);
+            Epic epic = epicStorage.get(epicId);
+            List<Integer> list = epic.getSubtaskIdsList();
+            list.add(id);
+            updateEpic(getEpicById(epicId));
+            checkTheTaskForRepetition(subtask);
+            return subtask;
+        } catch (IntersectionException exception) {
+            System.out.println("Пересечение по времени при создании подзадачи с ID:" + subtask.getId());
+            return subtask;
+        }
     }
 
     public ArrayList<Subtask> getEpicSubtasks(int id) {
@@ -99,16 +116,36 @@ public class InMemoryTaskManager implements TaskManager {
         return subtaskStorage.values();
     }
 
+    public Set<Task> getPrioritizedTasks() {
+        Comparator<Task> comparator = (o1, o2) -> {
+            if (o1.getStartTime() == null) {
+                return -1;
+            } else if (o2.getStartTime() == null) {
+                return 1;
+            }
+            return o1.getStartTime().compareTo(o2.getStartTime());
+        };
+
+        Set<Task> prioritizedTaskList = new TreeSet<>(comparator);
+        prioritizedTaskList.addAll(getAllTasks());
+        prioritizedTaskList.addAll(getAllSubtasks());
+        return prioritizedTaskList;
+    }
+
     public List<Task> getHistory() {
         return historyManager.getTaskList();
     }
 
     public void updateTask(Task task) {
-        Task saved = taskStorage.get(task.getId());
-        if (saved == null) {
-            return;
+        try {
+            Task saved = taskStorage.get(task.getId());
+            if (saved == null) {
+                return;
+            }
+            taskStorage.put(task.getId(), task);
+        } catch (IntersectionException exception) {
+            System.out.println("Пересечение по времени при обновлении задачи с ID:" + task.getId());
         }
-        taskStorage.put(task.getId(), task);
     }
 
     public void updateEpic(Epic epic) {
@@ -117,17 +154,31 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         epic.setStatus(updateEpicStatus(epic));
+        epic.setStartTime(updateEpicStartTime(epic));
+        epic.setEndTime(updateEpicEndTime(epic));
+        epic.setDuration(updateEpicDurationTime(epic));
         epicStorage.put(epic.getId(), epic);
     }
 
     public void updateSubtask(Subtask subtask) {
-        Subtask saved = subtaskStorage.get(subtask.getId());
-        Epic epic = epicStorage.get(subtask.getEpicId());
-        if (saved == null) {
-            return;
+        try {
+            Subtask saved = subtaskStorage.get(subtask.getId());
+            if (saved == null) {
+                return;
+            }
+            subtaskStorage.put(subtask.getId(), subtask);
+
+            Epic epic = getEpicById(subtask.getEpicId());
+
+            epic.setStatus(updateEpicStatus(epic));
+            epic.setStartTime(updateEpicStartTime(epic));
+            epic.setEndTime(updateEpicEndTime(epic));
+            epic.setDuration(updateEpicDurationTime(epic));
+            epicStorage.put(epic.getId(), epic);
+        } catch (IntersectionException exception) {
+            System.out.println("Пересечение по времени при обновлении подзадачи с ID:" + subtask.getId());
         }
-        subtaskStorage.put(subtask.getId(), subtask);
-        epic.setStatus(updateEpicStatus(epic));
+
     }
 
     public void removeTasks() {
@@ -183,6 +234,35 @@ public class InMemoryTaskManager implements TaskManager {
         subtaskStorage.remove(id);
     }
 
+    public void checkTheTaskForRepetition(Task task) throws IntersectionException {
+        String errorMessage = "Пересечение по времени при создании или обновлении задачи.";
+        if (getPrioritizedTasks().isEmpty()) {
+            return;
+        }
+        for (Task prioritizedTask : getPrioritizedTasks()) {
+            if (prioritizedTask.getStartTime() == null ||
+                    prioritizedTask.getEndTime() == null ||
+                    task.getStartTime() == null ||
+                    task.getEndTime() == null) {
+                return;
+            } else if (task.equals(prioritizedTask)) {
+                return;
+            } else if (task.getStartTime().isAfter(prioritizedTask.getStartTime()) &&
+                    task.getStartTime().isBefore(prioritizedTask.getEndTime())) {
+                throw new IntersectionException(errorMessage);
+            } else if (task.getEndTime().isAfter(prioritizedTask.getStartTime()) &&
+                    task.getEndTime().isBefore(prioritizedTask.getEndTime())) {
+                throw new IntersectionException(errorMessage);
+            } else if (task.getStartTime().isAfter(prioritizedTask.getStartTime()) &&
+                    task.getEndTime().isBefore(prioritizedTask.getEndTime())) {
+                throw new IntersectionException(errorMessage);
+            } else if (task.getStartTime().isBefore(prioritizedTask.getStartTime()) &&
+                    task.getEndTime().isAfter(prioritizedTask.getEndTime())) {
+                throw new IntersectionException(errorMessage);
+            }
+        }
+    }
+
     private Status updateEpicStatus(Epic epic) {
         boolean statusNEW = true;
         boolean statusDONE = true;
@@ -201,6 +281,33 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             return Status.IN_PROGRESS;
         }
+    }
+
+    private LocalDateTime updateEpicStartTime(Epic epic) {
+        Optional<LocalDateTime> optionalTime = getEpicSubtasks(epic.getId())
+                .stream()
+                .map(Task::getStartTime)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo);
+        return optionalTime.orElse(LocalDateTime.MIN);
+    }
+
+    private Duration updateEpicDurationTime(Epic epic) {
+        Optional<Duration> optionalTime = getEpicSubtasks(epic.getId())
+                .stream()
+                .map(Task::getDuration)
+                .filter(Objects::nonNull)
+                .reduce(Duration::plus);
+        return optionalTime.orElse(Duration.ZERO);
+    }
+
+    private LocalDateTime updateEpicEndTime(Epic epic) {
+        Optional<LocalDateTime> optionalTime = getEpicSubtasks(epic.getId())
+                .stream()
+                .map(Task::getEndTime)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo);
+        return optionalTime.orElse(LocalDateTime.MAX);
     }
 
     private int generateId() {

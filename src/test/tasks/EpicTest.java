@@ -7,6 +7,9 @@ import finaltask.tasks.Subtask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -20,8 +23,8 @@ class EpicTest {
     @BeforeEach
     public void setUp() {
         inMemoryTaskManager.createEpic(epic);
-        subtask1 = new Subtask("Title", "Description");
-        subtask2 = new Subtask("Title", "Description");
+        subtask1 = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
+        subtask2 = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
     }
 
     @Test

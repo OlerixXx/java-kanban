@@ -1,10 +1,13 @@
 package finaltask;
 
 import finaltask.tasks.Epic;
+import finaltask.tasks.Status;
 import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Main {
 
@@ -18,12 +21,12 @@ public class Main {
         /* Всё нижеперечисленное сделано исключительно
            ради тестирования методов менеджера задач. */
 
-        Task task1 = new Task("Задача №1", "Описание задачи №1");
-        Task task2 = new Task("Задача №2", "Описание задачи №2");
+        Task task1 = new Task("Задача №1", "Описание задачи №1", Duration.ofDays(5), LocalDateTime.of(2023, 3, 29, 19, 0));
+        Task task2 = new Task("Задача №2", "Описание задачи №2", Duration.ofDays(1), LocalDateTime.of(2023, 3, 10, 19, 0));
         Epic epic1 = new Epic("Эпик №1", "Описание эпика №1");
-        Subtask epic1subtask1 = new Subtask("Сабтаск №1", "Описание сабтаска №1");
-        Subtask epic1subtask2 = new Subtask("Сабтаск №2", "Описание сабтаска №2");
-        Subtask epic1subtask3 = new Subtask("Сабтаск №3", "Описание сабтаска №3");
+        Subtask epic1subtask1 = new Subtask("Сабтаск №1", "Описание сабтаска №1", Duration.ofDays(1), LocalDateTime.of(2023, 9, 15, 10, 0));
+        Subtask epic1subtask2 = new Subtask("Сабтаск №2", "Описание сабтаска №2", Duration.ofDays(4), LocalDateTime.of(2023, 10, 5, 12, 0));
+        Subtask epic1subtask3 = new Subtask("Сабтаск №3", "Описание сабтаска №3", Duration.ofDays(5), LocalDateTime.of(2023, 5, 11, 19, 0));
         Epic epic2 = new Epic("Эпик №2", "Описание эпика №2");
 
         // Создаём задачи
@@ -39,32 +42,35 @@ public class Main {
         System.out.println("Получение задач по идентификаторам:");
         System.out.println(taskManager.getTaskById(task1.getId()));
         checkHistory(taskManager);
-        System.out.println(taskManager.getTaskById(task2.getId()));
+        epic1subtask1.setStatus(Status.IN_PROGRESS);
+        taskManager.updateEpic(epic1);
+        taskManager.getTaskById(task2.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getTaskById(task2.getId()));
+        taskManager.getTaskById(task2.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getTaskById(task1.getId()));
+        taskManager.getTaskById(task1.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getEpicById(epic2.getId()));
+        taskManager.getEpicById(epic2.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getEpicById(epic1.getId()));
+        taskManager.getEpicById(epic1.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getEpicById(epic1.getId()));
+        taskManager.getEpicById(epic1.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getSubTaskById(epic1subtask1.getId()));
+        taskManager.getSubTaskById(epic1subtask1.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getSubTaskById(epic1subtask2.getId()));
+        taskManager.getSubTaskById(epic1subtask2.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getSubTaskById(epic1subtask3.getId()));
+        taskManager.getSubTaskById(epic1subtask3.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getEpicById(epic2.getId()));
+        taskManager.getEpicById(epic2.getId());
         checkHistory(taskManager);
-        System.out.println(taskManager.getTaskById(task2.getId()));
+        taskManager.getTaskById(task2.getId());
         checkHistory(taskManager);
 
-        // Удаляем задачи
-        taskManager.removeTaskById(task1.getId());
-        checkHistory(taskManager1);
+        System.out.println("\nСписок задач в порядке приоритета:");
+        for (Task task : taskManager.getPrioritizedTasks()) {
+            System.out.println(task);
+        }
     }
 
     public static void checkHistory(TaskManager taskManager) {
@@ -72,7 +78,6 @@ public class Main {
         for (Task task : taskManager.getHistory()) {
             System.out.println(task);
         }
-        System.out.println("\n");
     }
 
 }

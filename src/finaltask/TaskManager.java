@@ -28,6 +28,8 @@ public interface TaskManager {
 
     Collection<Subtask> getAllSubtasks();
 
+    Set<Task> getPrioritizedTasks();
+
     List<Task> getHistory();
 
     void updateTask(Task task);
@@ -47,6 +49,8 @@ public interface TaskManager {
     void removeEpicById(Integer id);
 
     void removeSubtaskById(Integer id);
+
+    void checkTheTaskForRepetition(Task task);
 
     @Override
     boolean equals(Object o);
