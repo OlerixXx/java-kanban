@@ -7,7 +7,6 @@ import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileBackedTasksManager extends InMemoryTaskManager implements TaskManager {
@@ -191,6 +190,12 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
         List<Task> list = super.getHistory();
         save();
         return list;
+    }
+
+    @Override
+    public void updatePrioritizedTasks() {
+        super.updatePrioritizedTasks();
+        save();
     }
 
     @Override

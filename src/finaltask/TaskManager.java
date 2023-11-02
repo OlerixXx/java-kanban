@@ -32,6 +32,8 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
+    void updatePrioritizedTasks();
+
     void updateTask(Task task);
 
     void updateEpic(Epic epic);

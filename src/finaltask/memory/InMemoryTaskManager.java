@@ -15,6 +15,16 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
+
+    Set<Task> prioritizedTaskList = new TreeSet<>((o1, o2) -> {
+        if (o1.getStartTime() == null) {
+            return -1;
+        } else if (o2.getStartTime() == null) {
+            return 1;
+        }
+        return o1.getStartTime().compareTo(o2.getStartTime());
+    });
+
     protected final Map<Integer, Task> taskStorage;
     protected final Map<Integer, Epic> epicStorage;
     protected final Map<Integer, Subtask> subtaskStorage;
@@ -116,24 +126,17 @@ public class InMemoryTaskManager implements TaskManager {
         return subtaskStorage.values();
     }
 
-    public Set<Task> getPrioritizedTasks() {
-        Comparator<Task> comparator = (o1, o2) -> {
-            if (o1.getStartTime() == null) {
-                return -1;
-            } else if (o2.getStartTime() == null) {
-                return 1;
-            }
-            return o1.getStartTime().compareTo(o2.getStartTime());
-        };
-
-        Set<Task> prioritizedTaskList = new TreeSet<>(comparator);
-        prioritizedTaskList.addAll(getAllTasks());
-        prioritizedTaskList.addAll(getAllSubtasks());
+    public Set<Task> getPrioritizedTasks() {  // Когда пользлователю необходимо, он может запросить список, который был уже сформирован и отсортирован.
         return prioritizedTaskList;
     }
 
     public List<Task> getHistory() {
         return historyManager.getTaskList();
+    }
+
+    public void updatePrioritizedTasks() {  // При создании задачи и приоритизированный список обновляется
+        prioritizedTaskList.addAll(getAllTasks());
+        prioritizedTaskList.addAll(getAllSubtasks());
     }
 
     public void updateTask(Task task) {
@@ -236,9 +239,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void checkTheTaskForRepetition(Task task) throws IntersectionException {
         String errorMessage = "Пересечение по времени при создании или обновлении задачи.";
+        updatePrioritizedTasks();
         if (getPrioritizedTasks().isEmpty()) {
             return;
         }
+        updatePrioritizedTasks();
         for (Task prioritizedTask : getPrioritizedTasks()) {
             if (prioritizedTask.getStartTime() == null ||
                     prioritizedTask.getEndTime() == null ||
@@ -249,15 +254,6 @@ public class InMemoryTaskManager implements TaskManager {
                 return;
             } else if (task.getStartTime().isAfter(prioritizedTask.getStartTime()) &&
                     task.getStartTime().isBefore(prioritizedTask.getEndTime())) {
-                throw new IntersectionException(errorMessage);
-            } else if (task.getEndTime().isAfter(prioritizedTask.getStartTime()) &&
-                    task.getEndTime().isBefore(prioritizedTask.getEndTime())) {
-                throw new IntersectionException(errorMessage);
-            } else if (task.getStartTime().isAfter(prioritizedTask.getStartTime()) &&
-                    task.getEndTime().isBefore(prioritizedTask.getEndTime())) {
-                throw new IntersectionException(errorMessage);
-            } else if (task.getStartTime().isBefore(prioritizedTask.getStartTime()) &&
-                    task.getEndTime().isAfter(prioritizedTask.getEndTime())) {
                 throw new IntersectionException(errorMessage);
             }
         }

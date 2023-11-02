@@ -111,7 +111,14 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
+        if (startTime == null) {
+            startTime = LocalDateTime.now();
+        } else if (duration == null) {
+            duration = Duration.ofDays(1);
+        }
+
         LocalDateTime finalTime = startTime.plus(duration);
+
         if (startTime.equals(finalTime)) {
             return null;
         } else {
