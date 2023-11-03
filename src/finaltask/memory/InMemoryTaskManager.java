@@ -45,8 +45,8 @@ public class InMemoryTaskManager implements TaskManager {
             int id = generateId();
             task.setId(id);
             taskStorage.put(id, task);
-            prioritizedTaskList.add(task);
             checkTheTaskForRepetition(task);
+            prioritizedTaskList.add(task);
             return task;
         } catch (IntersectionException exception) {
             System.out.println("Пересечение по времени при создании задачи с ID:" + task.getId());
@@ -71,8 +71,8 @@ public class InMemoryTaskManager implements TaskManager {
             List<Integer> list = epic.getSubtaskIdsList();
             list.add(id);
             updateEpic(getEpicById(epicId));
-            prioritizedTaskList.add(subtask);
             checkTheTaskForRepetition(subtask);
+            prioritizedTaskList.add(subtask);
             return subtask;
         } catch (IntersectionException exception) {
             System.out.println("Пересечение по времени при создании подзадачи с ID:" + subtask.getId());
@@ -144,6 +144,8 @@ public class InMemoryTaskManager implements TaskManager {
             if (saved == null) {
                 return;
             }
+            prioritizedTaskList.remove(saved);
+            prioritizedTaskList.add(task);
             taskStorage.put(task.getId(), task);
         } catch (IntersectionException exception) {
             System.out.println("Пересечение по времени при обновлении задачи с ID:" + task.getId());
@@ -168,6 +170,8 @@ public class InMemoryTaskManager implements TaskManager {
             if (saved == null) {
                 return;
             }
+            prioritizedTaskList.remove(saved);
+            prioritizedTaskList.add(subtask);
             subtaskStorage.put(subtask.getId(), subtask);
 
             Epic epic = getEpicById(subtask.getEpicId());
@@ -249,7 +253,7 @@ public class InMemoryTaskManager implements TaskManager {
                 return;
             } else if (task.equals(prioritizedTask)) {
                 return;
-            } else {
+            } else if (task.getStartTime().isBefore(prioritizedTask.getEndTime()) && task.getStartTime().isAfter(prioritizedTask.getStartTime())) {
                 throw new IntersectionException(errorMessage);
             }
         }

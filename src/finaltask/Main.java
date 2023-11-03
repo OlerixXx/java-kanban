@@ -21,8 +21,8 @@ public class Main {
         /* Всё нижеперечисленное сделано исключительно
            ради тестирования методов менеджера задач. */
 
-        Task task1 = new Task("Задача №1", "Описание задачи №1", Duration.ofDays(5), LocalDateTime.of(2023, 3, 29, 19, 0));
-        Task task2 = new Task("Задача №2", "Описание задачи №2", Duration.ofDays(2), LocalDateTime.of(2023, 3, 28, 19, 0)); // Тут будет пересечение по времени, об этом сообщется в начале консоли
+        Task task1 = new Task("Задача №1", "Описание задачи №1", Duration.ofDays(5), LocalDateTime.of(2023, 3, 28, 19, 0));
+        Task task2 = new Task("Задача №2", "Описание задачи №2", Duration.ofDays(2), LocalDateTime.of(2023, 3, 29, 19, 0)); // Тут будет пересечение по времени, об этом сообщется в начале консоли
         Epic epic1 = new Epic("Эпик №1", "Описание эпика №1");
         Subtask epic1subtask1 = new Subtask("Сабтаск №1", "Описание сабтаска №1", Duration.ofDays(1), LocalDateTime.of(2023, 9, 15, 10, 0));
         Subtask epic1subtask2 = new Subtask("Сабтаск №2", "Описание сабтаска №2", Duration.ofDays(4), LocalDateTime.of(2023, 10, 5, 12, 0));
