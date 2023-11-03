@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de99318a-e318-4e75-8ee0-0fc0f94f6493" name="Changes" comment="ТЗ 7, 4 итерация">
+    <list default="true" id="de99318a-e318-4e75-8ee0-0fc0f94f6493" name="Changes" comment="ТЗ 7, 5 итерация">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java-kanban/file.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/finaltask/resources/file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java-kanban/finaltask/resources/file.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/finaltask/memory/InMemoryTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/memory/InMemoryTaskManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -203,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699026208809</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="ТЗ 7, 5 итерация">
+      <option name="closed" value="true" />
+      <created>1699031366922</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699031366922</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -211,9 +221,23 @@
     <MESSAGE value="ТЗ 7, 2 итерация" />
     <MESSAGE value="ТЗ 7, 3 итерация" />
     <MESSAGE value="ТЗ 7, 4 итерация" />
-    <option name="LAST_COMMIT_MESSAGE" value="ТЗ 7, 4 итерация" />
+    <MESSAGE value="ТЗ 7, 5 итерация" />
+    <option name="LAST_COMMIT_MESSAGE" value="ТЗ 7, 5 итерация" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/finaltask/memory/InMemoryTaskManager.java</url>
+          <line>242</line>
+          <properties class="finaltask.memory.InMemoryTaskManager" method="checkTheTaskForRepetition">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="value" />

@@ -255,6 +255,8 @@ public class InMemoryTaskManager implements TaskManager {
                 return;
             } else if (task.getStartTime().isBefore(prioritizedTask.getEndTime()) && task.getStartTime().isAfter(prioritizedTask.getStartTime())) {
                 throw new IntersectionException(errorMessage);
+            } else if (prioritizedTask.getStartTime().isBefore(task.getEndTime()) && prioritizedTask.getStartTime().isAfter(task.getStartTime())) {
+                throw new IntersectionException(errorMessage);
             }
         }
     }
