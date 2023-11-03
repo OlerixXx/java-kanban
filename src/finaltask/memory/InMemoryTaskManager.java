@@ -16,15 +16,16 @@ import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    Set<Task> prioritizedTaskList = new TreeSet<>((o1, o2) -> {
+    protected final Comparator<Task> comparator = (o1, o2) -> {
         if (o1.getStartTime() == null) {
             return -1;
         } else if (o2.getStartTime() == null) {
             return 1;
         }
         return o1.getStartTime().compareTo(o2.getStartTime());
-    });
+    };
 
+    protected Set<Task> prioritizedTaskList;
     protected final Map<Integer, Task> taskStorage;
     protected final Map<Integer, Epic> epicStorage;
     protected final Map<Integer, Subtask> subtaskStorage;
@@ -36,6 +37,7 @@ public class InMemoryTaskManager implements TaskManager {
         epicStorage = new HashMap<>();
         subtaskStorage = new HashMap<>();
         historyManager = Managers.getDefaultHistory();
+        prioritizedTaskList = new TreeSet<>(comparator);
     }
 
     public Task createTask(Task task) {
@@ -43,6 +45,7 @@ public class InMemoryTaskManager implements TaskManager {
             int id = generateId();
             task.setId(id);
             taskStorage.put(id, task);
+            prioritizedTaskList.add(task);
             checkTheTaskForRepetition(task);
             return task;
         } catch (IntersectionException exception) {
@@ -68,6 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
             List<Integer> list = epic.getSubtaskIdsList();
             list.add(id);
             updateEpic(getEpicById(epicId));
+            prioritizedTaskList.add(subtask);
             checkTheTaskForRepetition(subtask);
             return subtask;
         } catch (IntersectionException exception) {
@@ -132,11 +136,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     public List<Task> getHistory() {
         return historyManager.getTaskList();
-    }
-
-    public void updatePrioritizedTasks() {  // При создании задачи и приоритизированный список обновляется
-        prioritizedTaskList.addAll(getAllTasks());
-        prioritizedTaskList.addAll(getAllSubtasks());
     }
 
     public void updateTask(Task task) {
@@ -239,11 +238,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     public void checkTheTaskForRepetition(Task task) throws IntersectionException {
         String errorMessage = "Пересечение по времени при создании или обновлении задачи.";
-        updatePrioritizedTasks();
         if (getPrioritizedTasks().isEmpty()) {
             return;
         }
-        updatePrioritizedTasks();
         for (Task prioritizedTask : getPrioritizedTasks()) {
             if (prioritizedTask.getStartTime() == null ||
                     prioritizedTask.getEndTime() == null ||
@@ -252,8 +249,7 @@ public class InMemoryTaskManager implements TaskManager {
                 return;
             } else if (task.equals(prioritizedTask)) {
                 return;
-            } else if (task.getStartTime().isAfter(prioritizedTask.getStartTime()) &&
-                    task.getStartTime().isBefore(prioritizedTask.getEndTime())) {
+            } else {
                 throw new IntersectionException(errorMessage);
             }
         }

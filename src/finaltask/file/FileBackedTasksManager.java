@@ -193,12 +193,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     @Override
-    public void updatePrioritizedTasks() {
-        super.updatePrioritizedTasks();
-        save();
-    }
-
-    @Override
     public void updateTask(Task task) {
         super.updateTask(task);
         save();
