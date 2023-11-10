@@ -1,25 +1,44 @@
 package finaltask;
 
+import finaltask.http.KVServer;
 import finaltask.tasks.Epic;
 import finaltask.tasks.Status;
 import finaltask.tasks.Subtask;
 import finaltask.tasks.Task;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         File file = new File("src\\finaltask\\resources",
                 "file.csv");
-        TaskManager taskManager = Managers.getDefault(file);
-        TaskManager taskManager1 = Managers.getDefault(file);
 
-        /* Всё нижеперечисленное сделано исключительно
-           ради тестирования методов менеджера задач. */
+        KVServer KVServer = new KVServer();
+        KVServer.start();
+
+        TaskManager taskManager = Managers.getDefault("localhost", 8078);
+
+        /*
+          Всё нижеперечисленное сделано исключительно
+          ради тестирования методов менеджера задач.
+
+          Для проверки, что все задачи действительно сохраняются на сервере,
+          перейдите по ссылке "http://localhost:8078/load/tasks?API_TOKEN=DEBUG",
+          используя метод GET, например с помощью Insomnia. Вы получите ответ в виде
+          списка задач. Чтобы посмотреть эпики, сабтаски или историю, необходимо
+          заменить "tasks" в пути на любой другой доступный ключ.
+
+          Список ключей:
+          GET <tasks> - вывводит список задач
+          GET <epics> - выводит список эпиков
+          GET <subtasks> - выводит список эпиков
+          GET <history> - выводит историю задач
+         */
 
         Task task1 = new Task("Задача №1", "Описание задачи №1", Duration.ofDays(5), LocalDateTime.of(2023, 3, 28, 19, 0));
         Task task2 = new Task("Задача №2", "Описание задачи №2", Duration.ofDays(2), LocalDateTime.of(2023, 3, 29, 19, 0)); // Тут будет пересечение по времени, об этом сообщется в начале консоли
@@ -56,11 +75,11 @@ public class Main {
         checkHistory(taskManager);
         taskManager.getEpicById(epic1.getId());
         checkHistory(taskManager);
-        taskManager.getSubTaskById(epic1subtask1.getId());
+        taskManager.getSubtaskById(epic1subtask1.getId());
         checkHistory(taskManager);
-        taskManager.getSubTaskById(epic1subtask2.getId());
+        taskManager.getSubtaskById(epic1subtask2.getId());
         checkHistory(taskManager);
-        taskManager.getSubTaskById(epic1subtask3.getId());
+        taskManager.getSubtaskById(epic1subtask3.getId());
         checkHistory(taskManager);
         taskManager.getEpicById(epic2.getId());
         checkHistory(taskManager);

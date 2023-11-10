@@ -102,7 +102,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
-        assertEquals(subtask, taskManager.getSubTaskById(subtask.getId()));
+        assertEquals(subtask, taskManager.getSubtaskById(subtask.getId()));
     }
 
     @Test
@@ -110,12 +110,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         final RuntimeException exception = assertThrows(
                 RuntimeException.class,
-                () -> taskManager.getSubTaskById(subtask.getId())  // Здесь передаётся null
+                () -> taskManager.getSubtaskById(subtask.getId())  // Здесь передаётся null
         );
 
         final RuntimeException exception1 = assertThrows(
                 RuntimeException.class,
-                () -> taskManager.getSubTaskById(1)  // Несуществующий идентефикатор
+                () -> taskManager.getSubtaskById(1)  // Несуществующий идентефикатор
         );
     }
 
@@ -277,7 +277,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createSubtask(subtask, epic.getId());
         subtask.setTitle("NewTitle");
         taskManager.updateSubtask(subtask);
-        assertEquals("NewTitle", taskManager.getSubTaskById(subtask.getId()).getTitle());
+        assertEquals("NewTitle", taskManager.getSubtaskById(subtask.getId()).getTitle());
     }
 
     @Test
@@ -331,7 +331,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
-        taskManager.getSubTaskById(subtask.getId());
+        taskManager.getSubtaskById(subtask.getId());
 
         Subtask[] subtaskArray = {subtask};
         Collection<Subtask> subtaskCollectionFromManager = taskManager.getAllSubtasks();
@@ -408,7 +408,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
-        taskManager.getSubTaskById(subtask.getId());
+        taskManager.getSubtaskById(subtask.getId());
 
         taskManager.removeSubtaskById(subtask.getId());
 
@@ -424,7 +424,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         Subtask subtask = new Subtask("Title", "Description", Duration.ofDays(10), LocalDateTime.now());
         taskManager.createSubtask(subtask, epic.getId());
-        taskManager.getSubTaskById(subtask.getId());
+        taskManager.getSubtaskById(subtask.getId());
 
         taskManager.removeSubtaskById(null);
 

@@ -151,8 +151,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     }
 
     @Override
-    public Subtask getSubTaskById(int id) {
-        Subtask subtask = super.getSubTaskById(id);
+    public Subtask getSubtaskById(int id) {
+        Subtask subtask = super.getSubtaskById(id);
         save();
         return subtask;
     }
@@ -160,35 +160,30 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     @Override
     public Collection<Task> getAllTasks() {
         Collection<Task> collection = super.getAllTasks();
-        save();
         return collection;
     }
 
     @Override
     public Collection<Epic> getAllEpics() {
         Collection<Epic> collection = super.getAllEpics();
-        save();
         return collection;
     }
 
     @Override
     public Collection<Subtask> getAllSubtasks() {
         Collection<Subtask> collection = super.getAllSubtasks();
-        save();
         return collection;
     }
 
     @Override
     public Set<Task> getPrioritizedTasks() {
         Set<Task> set = super.getPrioritizedTasks();
-        save();
         return set;
     }
 
     @Override
     public List<Task> getHistory() {
         List<Task> list = super.getHistory();
-        save();
         return list;
     }
 

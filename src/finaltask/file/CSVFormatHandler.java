@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class CSVFormatHandler {
     Map<Integer, Task> taskList = new HashMap<>();
     private static final String DELIMITER = ",";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     String toString(Task task) {
 

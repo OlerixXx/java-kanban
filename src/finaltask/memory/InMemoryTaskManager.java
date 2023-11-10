@@ -108,7 +108,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    public Subtask getSubTaskById(int id) {
+    public Subtask getSubtaskById(int id) {
         Subtask subtask = subtaskStorage.get(id);
         if (subtask == null) {
             throw new RuntimeException();
