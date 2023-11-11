@@ -8,6 +8,8 @@ import finaltask.tasks.Task;
 
 import java.io.IOException;
 
+import static java.net.HttpURLConnection.*;
+
 public class HistoryEndpoint extends Endpoint implements HttpHandler {
 
     public HistoryEndpoint(Gson gson, TaskManager manager) {
@@ -29,11 +31,11 @@ public class HistoryEndpoint extends Endpoint implements HttpHandler {
                     sendText(exchange, response);
                 } else {
                     System.out.println("Неверно указан эндпоинт для GET: */tasks/history");
-                    exchange.sendResponseHeaders(404, 0);
+                    exchange.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                 }
             } else {
                 System.out.println("Неизвестный метод! " + method);
-                exchange.sendResponseHeaders(405, 0);
+                exchange.sendResponseHeaders(HTTP_BAD_METHOD, 0);
             }
         } catch (Exception exception) {
             System.out.println("Неизвестная ошибка!");

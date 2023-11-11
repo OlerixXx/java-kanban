@@ -4,33 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de99318a-e318-4e75-8ee0-0fc0f94f6493" name="Changes" comment="ТЗ 7, 6 итерация">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_9_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/HttpTaskManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/HttpTaskServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/KVServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/KVTaskClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/adapters/DurationAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/adapters/LocalDateAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/EmptyEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/Endpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/EpicEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/EpicSubtasksEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/HistoryEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/SubtaskEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/TaskEndpoint.java" afterDir="false" />
+    <list default="true" id="de99318a-e318-4e75-8ee0-0fc0f94f6493" name="Changes" comment="ТЗ 8, 1 итерация">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/java-kanban.iml" beforeDir="false" afterPath="$PROJECT_DIR$/java-kanban.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java-kanban/file.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/finaltask/resources/file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/java-kanban/finaltask/resources/file.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/Managers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/Managers.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/TaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/file/CSVFormatHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/file/CSVFormatHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/file/FileBackedTasksManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/file/FileBackedTasksManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/memory/InMemoryTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/memory/InMemoryTaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/finaltask/resources/file.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/resources/file.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/TaskManagerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TaskManagerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/HttpTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/HttpTaskManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/KVServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/KVServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/KVTaskClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/KVTaskClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/EmptyEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/EmptyEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/Endpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/Endpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/EpicEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/EpicEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/EpicSubtasksEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/EpicSubtasksEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/HistoryEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/HistoryEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/SubtaskEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/SubtaskEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/finaltask/http/endpoints/TaskEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/finaltask/http/endpoints/TaskEndpoint.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -244,7 +229,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699032701414</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ТЗ 8, 1 итерация">
+      <option name="closed" value="true" />
+      <created>1699636727662</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1699636727662</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -254,19 +247,20 @@
     <MESSAGE value="ТЗ 7, 4 итерация" />
     <MESSAGE value="ТЗ 7, 5 итерация" />
     <MESSAGE value="ТЗ 7, 6 итерация" />
-    <option name="LAST_COMMIT_MESSAGE" value="ТЗ 7, 6 итерация" />
+    <MESSAGE value="ТЗ 8, 1 итерация" />
+    <option name="LAST_COMMIT_MESSAGE" value="ТЗ 8, 1 итерация" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/finaltask/http/endpoints/SubtaskEndpoint.java</url>
-          <line>27</line>
+          <line>29</line>
           <option name="timeStamp" value="54" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/finaltask/http/endpoints/SubtaskEndpoint.java</url>
-          <line>26</line>
+          <line>28</line>
           <option name="timeStamp" value="55" />
         </line-breakpoint>
       </breakpoints>

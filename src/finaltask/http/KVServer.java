@@ -1,5 +1,6 @@
 package finaltask.http;
 
+import static java.net.HttpURLConnection.*;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class KVServer {
             System.out.println("\n/load");
             if (!hasAuth(h)) {
                 System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
-                h.sendResponseHeaders(403, 0);
+                h.sendResponseHeaders(HTTP_FORBIDDEN, 0);
                 return;
             }
 
@@ -51,17 +52,17 @@ public class KVServer {
                 String key = h.getRequestURI().getPath().substring("/save/".length());
                 if (key.isEmpty()) {
                     System.out.println("Key для запроса пустой. key указывается в пути: /load/{key}");
-                    h.sendResponseHeaders(404, 0);
+                    h.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                 } else if (!data.containsKey(key)) {
                     System.out.println("В базе данных отсутствует значение по переданному ключу");
-                    h.sendResponseHeaders(404, 0);
+                    h.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                 } else if (data.containsKey(key)) {
                     System.out.println("Значение для ключа " + key + " успешно найдено!");
                     sendText(h, data.get(key));
                 }
             } else {
                 System.out.println("/load ждёт GET-запрос, а получил: " + h.getRequestMethod());
-                h.sendResponseHeaders(405, 0);
+                h.sendResponseHeaders(HTTP_BAD_METHOD, 0);
             }
 
         } catch (Exception exception) {
@@ -77,28 +78,28 @@ public class KVServer {
             System.out.println("\n/save");
             if (!hasAuth(h)) {
                 System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
-                h.sendResponseHeaders(403, 0);
+                h.sendResponseHeaders(HTTP_FORBIDDEN, 0);
                 return;
             }
             if ("POST".equals(h.getRequestMethod())) {
                 String key = h.getRequestURI().getPath().substring("/save/".length());
                 if (key.isEmpty()) {
                     System.out.println("Key для сохранения пустой. key указывается в пути: /save/{key}");
-                    h.sendResponseHeaders(400, 0);
+                    h.sendResponseHeaders(HTTP_BAD_REQUEST, 0);
                     return;
                 }
                 String value = readText(h);
                 if (value.isEmpty()) {
                     System.out.println("Value для сохранения пустой. value указывается в теле запроса");
-                    h.sendResponseHeaders(400, 0);
+                    h.sendResponseHeaders(HTTP_BAD_REQUEST, 0);
                     return;
                 }
                 data.put(key, value);
                 System.out.println("Значение для ключа " + key + " успешно обновлено!");
-                h.sendResponseHeaders(200, 0);
+                h.sendResponseHeaders(HTTP_OK, 0);
             } else {
                 System.out.println("/save ждёт POST-запрос, а получил: " + h.getRequestMethod());
-                h.sendResponseHeaders(405, 0);
+                h.sendResponseHeaders(HTTP_BAD_METHOD, 0);
             }
         } finally {
             h.close();
@@ -112,7 +113,7 @@ public class KVServer {
                 sendText(h, apiToken);
             } else {
                 System.out.println("/register ждёт GET-запрос, а получил " + h.getRequestMethod());
-                h.sendResponseHeaders(405, 0);
+                h.sendResponseHeaders(HTTP_BAD_METHOD, 0);
             }
         } finally {
             h.close();
@@ -142,7 +143,7 @@ public class KVServer {
     protected void sendText(HttpExchange h, String text) throws IOException {
         byte[] resp = text.getBytes(UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/text");
-        h.sendResponseHeaders(200, resp.length);
+        h.sendResponseHeaders(HTTP_OK, resp.length);
         h.getResponseBody().write(resp);
     }
 }

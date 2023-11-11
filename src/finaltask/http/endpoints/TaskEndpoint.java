@@ -6,6 +6,8 @@ import com.sun.net.httpserver.HttpHandler;
 import finaltask.TaskManager;
 import finaltask.tasks.Task;
 
+import static java.net.HttpURLConnection.*;
+
 public class TaskEndpoint extends Endpoint implements HttpHandler {
 
     public TaskEndpoint(Gson gson, TaskManager manager) {
@@ -35,7 +37,7 @@ public class TaskEndpoint extends Endpoint implements HttpHandler {
                         sendText(exchange, response);
                     } else {
                         System.out.println("Неверно указан эндпоинт для GET: */task/?");
-                        exchange.sendResponseHeaders(404, 0);
+                        exchange.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                     }
                     break;
                 }
@@ -45,13 +47,13 @@ public class TaskEndpoint extends Endpoint implements HttpHandler {
                         Task task = gson.fromJson(body, Task.class);
                         System.out.println(task);
                         manager.createTask(task);
-                        exchange.sendResponseHeaders(200, 0);
+                        exchange.sendResponseHeaders(HTTP_OK, 0);
                     } else if (body.isEmpty()) {
                         System.out.println("Тело запроса пустое!");
-                        exchange.sendResponseHeaders(400, 0);
+                        exchange.sendResponseHeaders(HTTP_BAD_REQUEST, 0);
                     } else {
                         System.out.println("Неверно указан эндпоинт для POST: */task/?");
-                        exchange.sendResponseHeaders(404, 0);
+                        exchange.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                     }
                     break;
                 }
@@ -59,21 +61,21 @@ public class TaskEndpoint extends Endpoint implements HttpHandler {
                     if (query == null) {
                         System.out.println("Обработка метода DELETE, пустого эндпоинта");
                         manager.removeTasks();
-                        exchange.sendResponseHeaders(200, 0);
+                        exchange.sendResponseHeaders(HTTP_OK, 0);
                     } else if (query != null) {
                         System.out.println("Обработка метода DELETE, запроса " + query);
                         int id = Integer.parseInt(query.replaceFirst("id=", ""));
                         manager.removeTaskById(id);
-                        exchange.sendResponseHeaders(200, 0);
+                        exchange.sendResponseHeaders(HTTP_OK, 0);
                     } else {
                         System.out.println("Неверно указан эндпоинт для DELETE: */task/?");
-                        exchange.sendResponseHeaders(404, 0);
+                        exchange.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                     }
                     break;
                 }
                 default: {
                     System.out.println("Неизвестный метод! " + method);
-                    exchange.sendResponseHeaders(405, 0);
+                    exchange.sendResponseHeaders(HTTP_BAD_METHOD, 0);
                     break;
                 }
             }

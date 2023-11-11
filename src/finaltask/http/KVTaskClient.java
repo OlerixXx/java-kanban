@@ -10,6 +10,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import static java.net.HttpURLConnection.*;
+
 public class KVTaskClient {
     private String address;
     private int port;
@@ -60,7 +62,7 @@ public class KVTaskClient {
                     .build();
             HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
             HttpResponse<String> response = client.send(request, handler);
-            if (response.statusCode() == 200) {
+            if (response.statusCode() == HTTP_OK) {
                 return response.body();
             } else {
                 System.out.println("Ошибка при попытке получить тело ответа. Код ответа: " + response.statusCode());
@@ -83,7 +85,7 @@ public class KVTaskClient {
                     .build();
             HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
             HttpResponse<String> response = client.send(request, handler);
-            if (response.statusCode() == 200) {
+            if (response.statusCode() == HTTP_OK) {
                 return response.body();
             } else {
                 System.out.println("Ошибка при попытке получить тело ответа. Код ответа: " + response.statusCode());

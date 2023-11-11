@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
+import static java.net.HttpURLConnection.*;
+
 public abstract class Endpoint {
     public Gson gson;
     public TaskManager manager;
@@ -21,7 +23,7 @@ public abstract class Endpoint {
     protected void sendText(HttpExchange httpExchange, String response) throws IOException {
         httpExchange.getResponseHeaders().add("Content-Type", "application/json");
         byte[] bytes = response.getBytes(Charset.defaultCharset());
-        httpExchange.sendResponseHeaders(200, bytes.length);
+        httpExchange.sendResponseHeaders(HTTP_OK, bytes.length);
         httpExchange.getResponseBody().write(bytes);
     }
 

@@ -7,6 +7,8 @@ import finaltask.TaskManager;
 
 import java.io.IOException;
 
+import static java.net.HttpURLConnection.*;
+
 public class EpicSubtasksEndpoint extends Endpoint implements HttpHandler {
     public EpicSubtasksEndpoint(Gson gson, TaskManager manager) {
         super(gson, manager);
@@ -27,11 +29,11 @@ public class EpicSubtasksEndpoint extends Endpoint implements HttpHandler {
                     sendText(exchange, response);
                 } else {
                     System.out.println("Неверно указан эндпоинт для GET: */tasks/subtask/epic/?");
-                    exchange.sendResponseHeaders(404, 0);
+                    exchange.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                 }
             } else {
                 System.out.println("Неизвестный метод! " + method);
-                exchange.sendResponseHeaders(405, 0);
+                exchange.sendResponseHeaders(HTTP_BAD_METHOD, 0);
             }
         } catch (Exception exception) {
             System.out.println("Неизвестная ошибка!");

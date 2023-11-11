@@ -5,6 +5,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import finaltask.TaskManager;
 
+import static java.net.HttpURLConnection.*;
+
 public class EmptyEndpoint extends Endpoint implements HttpHandler {
     public EmptyEndpoint(Gson gson, TaskManager manager) {
         super(gson, manager);
@@ -24,11 +26,11 @@ public class EmptyEndpoint extends Endpoint implements HttpHandler {
                     sendText(exchange, response);
                 } else {
                     System.out.println("Неверно указан эндпоинт для GET: */tasks");
-                    exchange.sendResponseHeaders(404, 0);
+                    exchange.sendResponseHeaders(HTTP_NOT_FOUND, 0);
                 }
             } else {
                 System.out.println("Неизвестный метод! " + method);
-                exchange.sendResponseHeaders(405, 0);
+                exchange.sendResponseHeaders(HTTP_BAD_METHOD, 0);
             }
         } catch (Exception exception) {
             System.out.println("Неизвестная ошибка!");

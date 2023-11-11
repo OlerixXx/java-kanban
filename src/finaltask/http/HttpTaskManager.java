@@ -14,10 +14,10 @@ import java.util.List;
 
 public class HttpTaskManager extends FileBackedTasksManager implements TaskManager {
 
-    public static String TASK_KEY = "tasks";
-    public static String EPIC_KEY = "epics";
-    public static String SUBTASK_KEY = "subtasks";
-    public static String HISTORY_KEY = "history";
+    public static String TASK_KEY;
+    public static String EPIC_KEY;
+    public static String SUBTASK_KEY;
+    public static String HISTORY_KEY;
 
     private final KVTaskClient client;
     private static final Gson gson = Managers.getDefaultGson();
